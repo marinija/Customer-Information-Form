@@ -1,0 +1,130 @@
+<div class="container">
+    <form [formGroup]="myForm" novalidate (ngSubmit)="onSubmit()">
+        <div class="card">
+
+            <div class="card-header">
+                <h3 style="font-weight: 400">Davor Mihajleski</h3>
+            </div>
+
+            <div class="card-body">
+                <div class="card">
+                    <div class="card-header">
+                        General Information
+                    </div>
+                    <div class="card-body" formGroupName="name">
+
+                        <div class="form-group">
+                            <label for="firstname">First Name</label>
+                            <input type="text" placeholder="First Name" required class="form-control" formControlName="firstname">
+                            <div *ngIf="!myForm.controls.name.controls.firstname.valid" class="alert alert-danger">
+                                First Name Is Required
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastname">Last Name</label>
+                            <input type="text" class="form-control" required placeholder="Last Name" formControlName="lastname">
+                            <div *ngIf="!myForm.controls.name.controls.lastname.valid" class="alert alert-danger">
+                                Last Name Is Required
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Date Of Birth</label>
+                            <input type="date" placeholder="First Name" class="form-control" id="date">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card-body">
+                <div class="card">
+                    <div class="card-header">
+                        Contact Information
+                    </div>
+                    <div class="card-body" formArrayName="items">
+                        <div class="card">
+                            <div class="card-header">
+                                <div>Email</div>
+                                <div class="card-body">
+                                    <div class="form-group" [ngClass]="{
+                                      'has-danger': myemail.invalid && (myemail.dirty || myemail.touched),
+                                      'has-success': myemail.valid && (myemail.dirty || myemail.touched)
+                                 }" @fade *ngFor="let item of myForm.get('items').controls; let i = index" [formGroupName]="i">
+                                        <label for="email" class="form-control-label">Email</label>
+                                        <input type="email" formControlName="myemail" placeholder="Email" id="email" class="form-control" [ngClass]="{'is-valid': myemail.valid,
+                                  'is-invalid':myemail.invalid}">
+                                        <p *ngIf="myemail.errors.pattern; then: content; else other"></p>
+                                        <ng-template #content>The email address must contain at least the @ character</ng-template>
+                                        <ng-template #other>Enter a valid email</ng-template>
+                                    </div>
+                                    <button (click)="AddEmail()" class="btn btn-primary">Add Email</button>
+                                    <div *ngIf="myForm.controls.items.controls.length > 1">
+                                        <button (click)="removeEmail(i)" class="btn btn-danger">Remove Email</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body" formArrayName="phones">
+                        <div class="card">
+                            <div class="card-header">Phone Number</div>
+                            <div class="card-body" @fade *ngFor="let phone of myForm.get('phones').controls; let i=index" [formGroupName]="i">
+                                <div class="form-group">
+                                    <input type="tel" formControlName="myphone" placeholder="Phones" class="form-control">
+                                </div>
+                                <button (click)="AddPhone()" class="btn btn-primary">Add Phone</button>
+                                <div *ngIf="myForm.controls.phones.controls.length > 1">
+                                    <button (click)="RemovePhone(i)" class="btn btn-danger">Remove Phone</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body" formArrayName="address">
+                        <div class="card">
+                            <div class="card-header">Address</div>
+                            <div class="card-body">
+                                <div class="card">
+                                    <div class="card-body" @fade *ngFor="let adres of myForm.get('address').controls; let i=index" [formGroupName]="i">
+                                        <div class="form-group">
+                                            <label for="street">Street</label>
+                                            <input type="text" formControlName='mystreet' placeholder="Street" class="form-control" id="street">
+                                            <!--display error message if street is not valid-->
+                                            <small>
+                                               Street is required
+                                            </small>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="city">City</label>
+                                            <input type="text" formControlName='mycity' placeholder="City" class="form-control" id="city">
+                                            <small>
+                                              City is required
+                                           </small>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="state">State</label>
+                                            <input type="text" formControlName='mystate' placeholder="State" class="form-control" id="state">
+                                            <small>
+                                              State is required
+                                           </small>
+                                        </div>
+                                        <button (click)="AddAddress()" class="btn btn-primary">Add Address</button>
+                                        <div *ngIf="myForm.controls.address.controls.length > 1">
+                                            <button (click)="RemoveAddress(i)" class="btn btn-danger">Remove Address</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-secondary" disabled="true">Save</button>
+            </div>
+            <pre>{{myForm.value | json}}</pre>
+        </div>
+    </form>
+</div>
