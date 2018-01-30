@@ -1,6 +1,5 @@
 import { Component, OnInit} from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, FormArray, Validators } from '@angular/forms';
-import { Customer } from './customer';
 import { trigger, state, transition, style, animate } from '@angular/animations';
 import { fade } from './animations';
 @Component({
@@ -14,7 +13,6 @@ import { fade } from './animations';
 export class Form01Component implements OnInit {
 
   public myForm: FormGroup;
-  customer: Customer[];
   items: FormArray;
   firstname: FormControl;
   lastname: FormControl;
